@@ -17,7 +17,7 @@ export const filmes = [
      id: 3,
      title: 'Julie & Julia (2009)',
      imagem: 'https://image.tmdb.org/t/p/original/zNTwwZJYhsG5vTYo3NthO9uFtRl.jpg',
-     description: 'Um chef deixa o restaurante para abrir um food truck.',
+     description: 'Uma blogueira recria as receitas da chef Julia Child.',
     }, 
 
      {
