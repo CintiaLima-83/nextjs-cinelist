@@ -1,7 +1,8 @@
-import { filmes } from "../../lib/filmes";
+
 import Link from "next/link";
 import {notFound} from "next/navigation";
 import styles from "./DetalheFilme.module.css";
+import { getMoviesDetails } from "@/app/lib/api/tmdb";
 
 type Props = {
   params: Promise<{
@@ -9,15 +10,33 @@ type Props = {
   }>;
 };
 
+export const generateMetadata = async({params}: Props) => {
+
+  const { id } = await params;
+ //fazer chamada API
+  const details = await getMoviesDetails(id);
+
+
+  if(!details)
+    return;
+
+  return {
+    title: `${details.title} | Cinelista`,
+    description: details.overview
+  }
+
+}
+
 const DetalheFilme = async ({ params }: Props) => {
   const { id } = await params;
+ //fazer chamada API
+  const details = await getMoviesDetails(id);
 
-  const details = filmes.find((filme) => filme.id == id);
 
   if(!details)
     return notFound();
 
-  const {title, imagem, description} = details;
+  const {title, poster_path, overview} = details;
 
   return (
     <>
@@ -28,13 +47,13 @@ const DetalheFilme = async ({ params }: Props) => {
           <figure>
             <img
             className={styles.detalhes_image}
-              src={imagem}
-              alt={'Poster do filme: $(title)'}
+              src={`${process.env.NEXT_PUBLIC_TMDB_API_IMG_URL}${poster_path}`}
+              alt={'Poster do filme: ${title}'}
             />
           </figure>
           <article className={styles.detalhes_info}>
             <h2>{title}</h2>
-            <p>{description}</p>
+            <p>{overview}</p>
           </article>
         </section>
         </div>

@@ -1,6 +1,8 @@
 export interface Filme {
     id: number;
     title: string;
-    imagem: string;
-    description:string;
+    overview: string;
+    poster_path: string;
+    vote_average: number;
+    release_date: string;
 };
