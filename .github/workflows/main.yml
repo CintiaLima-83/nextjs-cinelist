@@ -1,26 +1,24 @@
 # Nome do workflow, aparece na aba "Actions"
 name: Pipeline CI/CD
 
-# Definir quando o pipeline será disparado
 on:
   push:
     branches:
       - main
-  workflow_dispatch: # habilitar o botão "Run workflow" no Github Actions
+  workflow_dispatch:
 
 jobs:
-  # Primeiro job: build
   build:
-    runs-on: ubuntu-latest # imagem da máquina usada no CI
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout do código
         uses: actions/checkout@v5
 
       - name: Instalação do Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: '20'
+          node-version: '24'
 
       - name: Instalação das dependências
         run: npm install
@@ -28,6 +26,7 @@ jobs:
       - name: Rodar o build
         run: npm run build
         env:
-         TMDB_API_URL: ${{ vars.TMDB_API_URL}}
-         TMDB_API_KEY: ${{ secrets.TMDB_API_KEY}}
-         NEXT_PUBLIC_TMDB_API_IMG_URL: ${{ vars.NEXT_PUBLIC_TMDB_API_IMG_URL}}
+          TMDB_API_URL: ${{ vars.TMDB_API_URL }}
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+          NEXT_PUBLIC_TMDB_API_IMG_URL: ${{ vars.NEXT_PUBLIC_TMDB_API_IMG_URL }}
+
