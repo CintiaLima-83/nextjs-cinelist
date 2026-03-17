@@ -36,10 +36,10 @@ jobs:
           NEXT_PUBLIC_TMDB_API_IMG_URL: ${{ vars.NEXT_PUBLIC_TMDB_API_IMG_URL }}
  
   tests:
-   runs-on: ubuntu-latest # imagem da maquina usada no CI
-   needs: build
+    runs-on: ubuntu-latest
+    needs: build
 
-   steps:
+    steps:
       - name: Checkout do código
         uses: actions/checkout@v5
 
@@ -55,7 +55,6 @@ jobs:
 
       - name: Rodar lint
         run: npm run lint
-
 
       - name: Rodar tests
         run: npm test
