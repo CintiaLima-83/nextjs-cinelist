@@ -58,4 +58,4 @@ jobs:
 
 
       - name: Rodar tests
-        run: npm run tests
+        run: npm test
