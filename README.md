@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# 🎬 Next.js Cinelist
 
-First, run the development server:
+Aplicação front-end desenvolvida em **Next.js** para listar filmes utilizando a API do TMDB.  
+Este projeto foi criado como parte da prática de **Integração Contínua (CI)** e **Entrega Contínua (CD)** com GitHub Actions.
 
+---
+
+## 🚀 Objetivo
+Demonstrar uma pipeline completa de CI/CD que contempla:
+- **Validação de Código**: rodar ESLint.
+- **Testes Automatizados**: rodar testes unitários.
+- **Build da Aplicação**: verificar se o projeto compila corretamente.
+- **Deploy Automatizado**: publicar a aplicação na Vercel a cada push na branch `main`.
+
+---
+
+## ⚙️ Tecnologias
+- [Next.js](https://nextjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [ESLint](https://eslint.org/)
+- [GitHub Actions](https://docs.github.com/actions)
+- [Vercel](https://vercel.com/)
+
+---
+
+## 🔄 Pipeline CI/CD
+
+O workflow está configurado em `.github/workflows/main.yml` e possui três estágios:
+
+1. **Build**
+   - Instala dependências (`npm ci`)
+   - Roda lint (`npm run lint`)
+   - Roda testes (`npm run test`)
+   - Roda build (`npm run build`)
+
+2. **Tests**
+   - Executa novamente lint e testes para garantir qualidade
+
+3. **Deploy**
+   - Deploy automático para a Vercel usando `VERCEL_TOKEN`, `VERCEL_ORG_ID` e `VERCEL_PROJECT_ID` configurados como **secrets** no repositório
+
+---
+
+## 🔑 Secrets e Variáveis
+- `VERCEL_TOKEN` → Token de acesso da Vercel
+- `VERCEL_ORG_ID` → ID da organização na Vercel
+- `VERCEL_PROJECT_ID` → ID do projeto na Vercel
+- Variáveis adicionais para API do TMDB:
+  - `TMDB_API_URL`
+  - `TMDB_TOKEN`
+  - `NEXT_PUBLIC_TMDB_API_IMG_URL`
+
+---
+
+## 🌐 Deploy
+A aplicação está publicada em:  
+👉 [https://nextjs-cinelist.vercel.app](https://nextjs-cinelist.vercel.app)
+
+---
+
+## 📋 Como rodar localmente
 ```bash
+# Clonar o repositório
+git clone https://github.com/CintiaLima-83/nextjs-cinelist.git
+
+# Entrar na pasta
+cd nextjs-cinelist
+
+# Instalar dependências
+npm ci
+
+# Rodar em modo desenvolvimento
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
