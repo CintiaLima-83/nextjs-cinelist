@@ -38,3 +38,15 @@ export const getTopMovies= async (): Promise<Filme[]> => {
   const res = await tmdbApi.get<Data>("/movie/top_rated?language=pt-BR");
   return res.data.results;
 };
+
+// Busca elenco (créditos) de um filme
+export const getMovieCredits = async (id: number) => {
+  const res = await tmdbApi.get(`/movie/${id}/credits?language=pt-BR`);
+  return res.data;
+};
+
+// Busca vídeos (trailers) de um filme
+export const getMovieVideos = async (id: number) => {
+  const res = await tmdbApi.get(`/movie/${id}/videos?language=pt-BR`);
+  return res.data;
+};

@@ -1,46 +1,94 @@
 .detalhes {
-    padding: 40px;
-    max-width: 960px;
-    margin: auto;
+  padding: 40px;
+  max-width: 960px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  background-color: #111;
+  color: #fff;
 }
 
 .detalhes_container {
-    display: flex;
-    gap: 32px;
-    background-color: #1f1f1f;
-    padding: 24px;
-    border-radius: 8px;
-}
-
-.detalhes_logo {
-    width: 300px;
-    height: 400px;
-    border-radius: 8px;
-    object-fit: center;
-}
-
-.detalhes_info{
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-}
-
-.detalhes_info h2 {
-    font-size: 1.8rem;
-    margin-bottom: 16px;
-    color: #e50914;
-}
-
-.detalhes_info p {
-    font-size: 1.05rem;
-    margin-bottom: 1.6;
-    color: #ddd;
+  display: flex;
+  gap: 32px;
+  background-color: #1f1f1f;
+  padding: 24px;
+  border-radius: 8px;
+  max-width: 900px;
+  width: 100%;
 }
 
 .detalhes_voltar {
-    display: block;
-    text-align: right;
-    margin-bottom: 24px;
-    color: #e50914;
-    font-weight: 500;
+  display: block;
+  text-align: right;
+  margin-bottom: 24px;
+  color: #e50914; /* vermelho Netflix-style */
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.detalhes_voltar:hover {
+  text-decoration: underline;
+}
+
+.detalhes_image {
+  width: 300px;
+  height: 450px;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+.detalhes_info {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-top: 1rem;
+}
+
+.detalhes_info h2 {
+  font-size: 2rem;
+  margin-bottom: 16px;
+  color: #e50914;
+}
+
+.detalhes_info p {
+  font-size: 1.05rem;
+  line-height: 1.5;
+  margin-bottom: 1.6rem;
+  color: #ddd;
+}
+
+.elenco {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+}
+
+.elenco li {
+  background-color: #222;
+  padding: 0.8rem;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #fff;
+}
+
+.elenco strong {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: #ffcc00; /* destaque dourado */
+}
+
+.trailer {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.trailer iframe {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
 }
