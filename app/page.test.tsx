@@ -2,19 +2,20 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import Home from "./page";
+import { getTrendingMovies } from "./lib/api/tmdb";
+import { ComponentProps } from "react";
 
 // Mock da API
-import { getTrendingMovies } from "./lib/api/tmdb";
 jest.mock("./lib/api/tmdb", () => ({
   getTrendingMovies: jest.fn(),
 }));
 
-// ✅ Mock do Next/Image para evitar erro de URL inválida
+// ✅ Mock do Next/Image com tipagem correta (sem any)
 jest.mock("next/image", () => ({
   __esModule: true,
-  default: (props: any) => {
+  default: (props: ComponentProps<"img">) => {
     // Renderiza como <img> simples nos testes
-    return <img {...props} />;
+    return <img {...props} alt={props.alt || "mock image"} />;
   },
 }));
 
