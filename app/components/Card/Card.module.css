@@ -1,5 +1,6 @@
 .card {
-  background-color: #ffffff;
+  position: relative;
+  background-color: #484343;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   overflow: hidden;
@@ -15,37 +16,21 @@
 .card_poster {
   width: 100%;
   height: auto;
-  border-bottom: 1px solid #eee;
+  display: block;
 }
 
-.card_info {
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+.card_overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0,0,0,0.7);
+  color: #fff;
+  padding: 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-.card_title {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #222;
-  margin: 0;
-}
-
-.card_description {
-  font-size: 0.9rem;
-  color: #555;
-  line-height: 1.4;
-  margin: 0;
-}
-
-.card_rating {
-  align-self: flex-start;
-  background-color: #ffcc00;
-  color: #000;
-  font-weight: bold;
-  padding: 4px 8px;
-  border-radius: 8px;
-  font-size: 0.85rem;
-  align-self: flex-start;
+.card:hover .card_overlay {
+  opacity: 1;
 }

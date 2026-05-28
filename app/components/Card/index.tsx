@@ -21,23 +21,17 @@ const Card = ({ filme }: Props) => {
     <div className={styles.card} key={id}>
       <Link href={`/filmes/${id}`}>
         <div>
-
           <Image
             className={styles.card_poster}
             src={`${process.env.NEXT_PUBLIC_TMDB_API_IMG_URL}${poster_path}`}
             alt={`Poster do filme ${title}`}
             width={300}
-            height={450} // proporção mais fiel ao poster
+            height={450}
           />
-
           <div className={styles.card_info}>
-
             <h3 className={styles.card_title}>{title}</h3>
-            
-            <p className={styles.card_description}>{resume}</p>
             <p className={styles.card_rating}>⭐ {vote_average}</p>
           </div>
-
         </div>
       </Link>
     </div>
