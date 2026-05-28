@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const tmdbApi = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_TMDB_API_URL,
+  baseURL: process.env.TMDB_API_URL,
   headers: {
     Authorization: `Bearer ${process.env.TMDB_API_TOKEN}`,
     "Content-Type": "application/json",
