@@ -3,7 +3,7 @@ import Title from "../components/Title";
 const NotFound = () => {
   return (
     <>
-      <Title text="Ops! Não encontramos o filme que você queria..." />
+      <Title>Ops! Não encontramos o filme que você queria...</Title>
     </>
   );
 };
