@@ -1,4 +1,4 @@
- # Nome do workflow, aparece na aba "Actions"
+# Nome do workflow, aparece na aba "Actions"
 name: Pipeline CI/CD
 
 on:
@@ -28,9 +28,9 @@ jobs:
       - name: Rodar o build
         run: npm run build
         env:
-          TMDB_API_URL: ${{ vars.TMDB_API_URL }}
-          TMDB_TOKEN: ${{ secrets.TMDB_TOKEN }}
-          NEXT_PUBLIC_TMDB_API_IMG_URL: ${{ vars.NEXT_PUBLIC_TMDB_API_IMG_URL }}
+          TMDB_API_URL: ${{ secrets.TMDB_API_URL }}
+          TMDB_API_TOKEN: ${{ secrets.TMDB_API_TOKEN }}
+          TMDB_API_IMG_URL: ${{ secrets.TMDB_API_IMG_URL }}
  
   tests:
     runs-on: ubuntu-latest
@@ -75,9 +75,10 @@ jobs:
         run: npm install -g vercel@latest
 
       - name: Deploy pra Vercel
-        run: vercel --prod --yes --token=${{secrets.VERCEL_TOKEN}}
-    env:
-       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: vercel --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
        
  
