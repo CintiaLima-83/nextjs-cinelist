@@ -1,47 +1,55 @@
-//Extensão do Jest DOM: adicionar matchers como "toBeInTheDocument"
+// Extensão do Jest DOM: adicionar matchers como "toBeInTheDocument"
 import "@testing-library/jest-dom";
-//Importa a função que será mackada
+import { render, screen } from "@testing-library/react";
+import Home from "./page";
+
+// Mock da API
 import { getTrendingMovies } from "./lib/api/tmdb";
-
-import { render, screen } from "@testing-library/react"
-import Home from "./page"
-
 jest.mock("./lib/api/tmdb", () => ({
-    getTrendingMovies: jest.fn().mockResolvedValue([
-        {id: 1, title: "Filme teste 1", overview: "Um resumo qualquer" },
-        {id: 2, title: "Filme teste 2", overview: "Outro resumo qualquer"},
-    ]),//retorna um mock dessa função
+  getTrendingMovies: jest.fn(),
 }));
 
+// ✅ Mock do Next/Image para evitar erro de URL inválida
+jest.mock("next/image", () => ({
+  __esModule: true,
+  default: (props: any) => {
+    // Renderiza como <img> simples nos testes
+    return <img {...props} />;
+  },
+}));
 
-test("Exibe o titulo 'filmes em destaques' na página inicial corretamente", async ()=> {
-    const ui = await Home(); // Home é async
-    render(ui);
+// ✅ Define variável de ambiente para testes
+beforeAll(() => {
+  process.env.NEXT_PUBLIC_TMDB_API_IMG_URL = "https://image.tmdb.org/t/p/w500";
+});
 
+test("Exibe o titulo 'filmes em destaques' na página inicial corretamente", async () => {
+  (getTrendingMovies as jest.Mock).mockResolvedValue([
+    { id: 1, title: "Filme teste 1", overview: "Um resumo qualquer", poster_path: "/next.svg" },
+    { id: 2, title: "Filme teste 2", overview: "Outro resumo qualquer", poster_path: "/next.svg" },
+  ]);
 
-    //Verifica se o titulo da seção aparece corretamente
-    expect(screen.getByText("Destaque")).toBeInTheDocument();
+  const ui = await Home(); // Home é async
+  render(ui);
 
-    //Verifica se os filmes mackados aparecem
-    expect(screen.getByText("Filme teste 1")).toBeInTheDocument();
-    expect(screen.getByText("Filme teste 2")).toBeInTheDocument();
-
+  expect(screen.getByText("Destaque")).toBeInTheDocument();
+  expect(screen.getByText("Filme teste 1")).toBeInTheDocument();
+  expect(screen.getByText("Filme teste 2")).toBeInTheDocument();
 });
 
 test("Renderiza os filmes em destaque corretamente", async () => {
-    (getTrendingMovies as jest.Mock).mockResolvedValue([   {
-     id: 1,
-     title: "Filme teste",
-     overview: "Resumo teste",
-     poster_path: "public/next.svg",
-     vote_average: 0.0,
-   },
-    ]);
+  (getTrendingMovies as jest.Mock).mockResolvedValue([
+    {
+      id: 1,
+      title: "Filme teste",
+      overview: "Resumo teste",
+      poster_path: "/next.svg", // ✅ começa com "/"
+      vote_average: 0.0,
+    },
+  ]);
 
-    //Renderiza a págine (internamente chama a função getTrendingMovies)
-    render(await Home());
-    //Verificar se o titulo renderizado aparece na tela
-    expect(await screen.findByText("Filme teste")).toBeInTheDocument();
+  render(await Home());
+  expect(await screen.findByText("Filme teste")).toBeInTheDocument();
 });
 
 test("Renderiza filmes quando disponíveis", async () => {
@@ -50,13 +58,12 @@ test("Renderiza filmes quando disponíveis", async () => {
       id: 1,
       title: "Filme teste",
       overview: "Resumo teste",
-      poster_path: "public/next.svg",
+      poster_path: "/next.svg",
       vote_average: 0.0,
     },
   ]);
 
   render(await Home());
-
   expect(await screen.findByText("Filme teste")).toBeInTheDocument();
 });
 
@@ -64,6 +71,5 @@ test("Exibe mensagem quando não há filmes", async () => {
   (getTrendingMovies as jest.Mock).mockResolvedValue([]);
 
   render(await Home());
-
   expect(await screen.findByText("Nenhum filme encontrado.")).toBeInTheDocument();
 });

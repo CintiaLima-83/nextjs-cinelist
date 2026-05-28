@@ -1,9 +1,9 @@
 // Importações necessárias
-import { Filme } from "@/app/types/types"; // ✅ Tipagem do objeto Filme
+import { Filme } from "@/app/types/types"; 
 import styles from "./Card.module.css";
 import Link from "next/link";
 import { useResumoFilme } from "@/app/hooks/useResumoFilme";
-import Image from "next/image"; // ✅ usamos Image em vez de <img>
+import Image from "next/image"; 
 
 // Tipagem explícita das props
 type Props = {
@@ -19,7 +19,6 @@ const Card = ({ filme }: Props) => {
 
   return (
     <div className={styles.card} key={id}>
-      {/* Link para a página de detalhes do filme */}
       <Link href={`/filmes/${id}`}>
         <div>
       
