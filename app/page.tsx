@@ -1,19 +1,7 @@
-import Grid from "./components/Grid";
-import Title from "./components/Title";
 import { getTrendingMovies } from "./lib/api/tmdb";
-
+import SearchBarWrapper from "./components/Bar/SearchBarWrapper";
 
 export default async function Home() {
-  const filmes = await getTrendingMovies()
-  return (
-    <>
-    <Title title="Destaque"/>
-    {filmes && filmes.length > 0 ? (
-          <Grid filmes={filmes}/>
-    ) : (
-      <p>Nenhum filme encontrado.</p>
-        )}
-
-    </>
-  );
+  const filmes = await getTrendingMovies();
+  return <SearchBarWrapper initialMovies={filmes} />;
 }
