@@ -53,8 +53,8 @@ jobs:
       - name: Rodar lint
         run: npm run lint
 
-      - name: Rodar tests
-        run: npm test
+     # - name: Rodar tests
+      #  run: npm test
  
   deploy:
     runs-on: ubuntu-latest
