@@ -152,5 +152,4 @@ Durante o desenvolvimento deste projeto foram praticados conceitos de:
 Cíntia Lima
 
 * GitHub: https://github.com/CintiaLima-83
-* LinkedIn: (adicione seu perfil)
 
