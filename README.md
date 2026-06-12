@@ -61,7 +61,16 @@ Aplicação online:
 
 https://nextjs-cinelist.vercel.app
 
-## 📷 Preview
+## 📸 Screenshots
+
+### Home
+![Home](./public/screenshots/home.png)
+
+### Busca
+![Busca](./public/screenshots/busca.png)
+
+### Detalhes
+![Detalhes](./public/screenshots/detalhes.png)
 
 ### Página Inicial
 
