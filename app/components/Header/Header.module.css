@@ -25,3 +25,21 @@
 .header_nav a:hover {
     color: #e50914;
 }
+
+.search_form {
+  display: flex;
+}
+
+.search_input {
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  width: 220px;
+  background: #222;
+  color: white;
+}
+
+.search_input:focus {
+  border: 1px solid #e50914;
+}

@@ -23,7 +23,7 @@ export default function PosterCarousel({ filmes }: PosterCarouselProps) {
   }
 
   return (
-    <div className="w-full mb-8">
+    <div className="w-full h-auto transition-transform duration-300 hover:scale-105">
       <Swiper
         spaceBetween={20}
         loop

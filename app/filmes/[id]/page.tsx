@@ -2,7 +2,11 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./DetalheFilme.module.css";
-import { getMoviesDetails, getMovieCredits, getMovieVideos } from "@/app/lib/api/tmdb";
+import {
+  getMoviesDetails,
+  getMovieCredits,
+  getMovieVideos,
+} from "@/app/lib/api/tmdb";
 
 type Actor = {
   id: number;
@@ -16,8 +20,16 @@ type Video = {
   key: string;
 };
 
-// ✅ Corrigido: params é Promise
-export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+type Genre = {
+  id: number;
+  name: string;
+};
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const { id } = await params;
   const details = await getMoviesDetails(Number(id));
 
@@ -29,8 +41,11 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   };
 }
 
-// ✅ Corrigido: params é Promise
-export default async function DetalheFilme({ params }: { params: Promise<{ id: string }> }) {
+export default async function DetalheFilme({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const { id } = await params;
   const filmeId = Number(id);
 
@@ -41,13 +56,24 @@ export default async function DetalheFilme({ params }: { params: Promise<{ id: s
   ]);
 
   if (!details) {
-    return notFound(); // só se o filme não existe mesmo
+    return notFound();
   }
 
-  const { title, poster_path, overview } = details;
+  const {
+    title,
+    poster_path,
+    overview,
+    vote_average,
+    release_date,
+    genres,
+  } = details;
+
   const elenco: Actor[] = credits?.cast?.slice(0, 5) ?? [];
+
   const trailer: Video | undefined = videos?.results?.find(
-    (v: Video) => (v.type === "Trailer" || v.type === "Teaser") && v.site === "YouTube"
+    (v: Video) =>
+      (v.type === "Trailer" || v.type === "Teaser") &&
+      v.site === "YouTube"
   );
 
   return (
@@ -60,6 +86,7 @@ export default async function DetalheFilme({ params }: { params: Promise<{ id: s
           priority
         />
       </div>
+
       <div className={styles.detalhes_overlay}></div>
 
       <div className={styles.detalhes_info}>
@@ -68,14 +95,37 @@ export default async function DetalheFilme({ params }: { params: Promise<{ id: s
         </Link>
 
         <h2>{title}</h2>
+
         <p>{overview}</p>
 
+        <div className={styles.movie_meta}>
+          <p>
+            ⭐ Nota: {vote_average?.toFixed(1)}
+          </p>
+
+          <p>
+            📅 Lançamento:{" "}
+            {new Date(release_date).toLocaleDateString("pt-BR")}
+          </p>
+
+          {genres && genres.length > 0 && (
+            <p>
+              🎭 Gêneros:{" "}
+              {genres
+                .map((genre: Genre) => genre.name)
+                .join(", ")}
+            </p>
+          )}
+        </div>
+
         <h3>Elenco</h3>
+
         {elenco.length > 0 ? (
           <ul className={styles.elenco}>
             {elenco.map((actor) => (
               <li key={actor.id}>
-                <strong>{actor.name}</strong> como {actor.character}
+                <strong>{actor.name}</strong> como{" "}
+                {actor.character}
               </li>
             ))}
           </ul>
@@ -84,6 +134,7 @@ export default async function DetalheFilme({ params }: { params: Promise<{ id: s
         )}
 
         <h3>Trailer</h3>
+
         {trailer ? (
           <div className={styles.trailer}>
             <iframe
@@ -93,7 +144,7 @@ export default async function DetalheFilme({ params }: { params: Promise<{ id: s
               title="Trailer"
               frameBorder="0"
               allowFullScreen
-            ></iframe>
+            />
           </div>
         ) : (
           <p>Trailer não disponível.</p>

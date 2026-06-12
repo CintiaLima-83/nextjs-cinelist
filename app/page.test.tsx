@@ -1,4 +1,3 @@
-// Extensão do Jest DOM: adicionar matchers como "toBeInTheDocument"
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import Home from "./page";
@@ -10,32 +9,50 @@ jest.mock("./lib/api/tmdb", () => ({
   getTrendingMovies: jest.fn(),
 }));
 
-// ✅ Mock do Next/Image com tipagem correta (sem any)
+// Mock do Next/Image
 jest.mock("next/image", () => ({
   __esModule: true,
   default: (props: ComponentProps<"img">) => {
-    // Renderiza como <img> simples nos testes
     return <img {...props} alt={props.alt || "mock image"} />;
   },
 }));
 
-// ✅ Define variável de ambiente para testes
 beforeAll(() => {
-  process.env.NEXT_PUBLIC_TMDB_API_IMG_URL = "https://image.tmdb.org/t/p/w500";
+  process.env.NEXT_PUBLIC_TMDB_API_IMG_URL =
+    "https://image.tmdb.org/t/p/w500";
 });
 
-test("Exibe o titulo 'filmes em destaques' na página inicial corretamente", async () => {
+test("Exibe o título 'Destaque' na página inicial corretamente", async () => {
   (getTrendingMovies as jest.Mock).mockResolvedValue([
-    { id: 1, title: "Filme teste 1", overview: "Um resumo qualquer", poster_path: "/next.svg" },
-    { id: 2, title: "Filme teste 2", overview: "Outro resumo qualquer", poster_path: "/next.svg" },
+    {
+      id: 1,
+      title: "Filme teste 1",
+      overview: "Um resumo qualquer",
+      poster_path: "/next.svg",
+      vote_average: 8.5,
+      release_date: "2024-01-01",
+    },
+    {
+      id: 2,
+      title: "Filme teste 2",
+      overview: "Outro resumo qualquer",
+      poster_path: "/next.svg",
+      vote_average: 7.9,
+      release_date: "2023-05-10",
+    },
   ]);
 
-  const ui = await Home(); // Home é async
-  render(ui);
+  render(await Home());
 
   expect(screen.getByText("Destaque")).toBeInTheDocument();
-  expect(screen.getByText("Filme teste 1")).toBeInTheDocument();
-  expect(screen.getByText("Filme teste 2")).toBeInTheDocument();
+
+  expect(
+    screen.getAllByText("Filme teste 1")
+  ).toHaveLength(2);
+
+  expect(
+    screen.getAllByText("Filme teste 2")
+  ).toHaveLength(2);
 });
 
 test("Renderiza os filmes em destaque corretamente", async () => {
@@ -44,13 +61,17 @@ test("Renderiza os filmes em destaque corretamente", async () => {
       id: 1,
       title: "Filme teste",
       overview: "Resumo teste",
-      poster_path: "/next.svg", // ✅ começa com "/"
-      vote_average: 0.0,
+      poster_path: "/next.svg",
+      vote_average: 8.5,
+      release_date: "2024-01-01",
     },
   ]);
 
   render(await Home());
-  expect(await screen.findByText("Filme teste")).toBeInTheDocument();
+
+  expect(
+    screen.getAllByText("Filme teste")
+  ).toHaveLength(2);
 });
 
 test("Renderiza filmes quando disponíveis", async () => {
@@ -60,17 +81,24 @@ test("Renderiza filmes quando disponíveis", async () => {
       title: "Filme teste",
       overview: "Resumo teste",
       poster_path: "/next.svg",
-      vote_average: 0.0,
+      vote_average: 8.5,
+      release_date: "2024-01-01",
     },
   ]);
 
   render(await Home());
-  expect(await screen.findByText("Filme teste")).toBeInTheDocument();
+
+  expect(
+    screen.getAllByText("Filme teste")
+  ).toHaveLength(2);
 });
 
 test("Exibe mensagem quando não há filmes", async () => {
   (getTrendingMovies as jest.Mock).mockResolvedValue([]);
 
   render(await Home());
-  expect(await screen.findByText("Nenhum filme encontrado.")).toBeInTheDocument();
+
+  expect(
+    await screen.findByText("Nenhum filme encontrado.")
+  ).toBeInTheDocument();
 });
